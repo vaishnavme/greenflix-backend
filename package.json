@@ -1,0 +1,26 @@
+{
+  "name": "leafshot-backend",
+  "version": "1.0.0",
+  "description": "leafshot video library app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "js",
+    "mern",
+    "react",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "Vaishnav",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "mongodb": "^3.6.7",
+    "mongoose": "^5.12.10",
+    "nodemon": "^2.0.7"
+  }
+}
