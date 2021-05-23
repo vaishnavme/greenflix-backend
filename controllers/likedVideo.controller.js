@@ -25,8 +25,7 @@ const addToLikedVideos = async(req, res) => {
     try {
         const { user } = req;
         const { videoId } = req.params;
-        console.log("user", user);
-        console.log("vid",videoId);
+
         const updatePlaylists = await User.findById(user._id);
         const addNewVideo = extend (
             updatePlaylists, {
