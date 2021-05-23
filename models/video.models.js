@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+mongoose.set('useCreateIndex', true);
 
 const VideoSchema = new Schema({
     link: {
