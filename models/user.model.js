@@ -15,17 +15,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: "password is required"
-    },
-    likedvideos: [
-        { type: Schema.Types.ObjectId, ref: "Video" }
-    ],
-    watchlater: [
-        { type: Schema.Types.ObjectId, ref: "Video" }
-    ],
-    playlist: [{
-        name: {type: String, required: "Playlist name required"},
-        videos: [{ type: Schema.Types.ObjectId, ref: "Video" }]
-    }]
+    }
 })
 
 const User = mongoose.model("User", userSchema);
