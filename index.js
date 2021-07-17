@@ -9,8 +9,6 @@ const { dbConnection } = require("./db/db.connect");
 
 const videoRouter = require("./routes/videos.route");
 const userRouter = require("./routes/user.route");
-const likedRouter = require("./routes/likedvideo.route");
-const watchRouter = require("./routes/watchlater.route");
 const playlistRouter = require("./routes/playlist.route");
 
 const errorHandler = require("./middleware/errorHandler");
@@ -20,8 +18,6 @@ dbConnection();
 
 app.use("/videos", videoRouter);
 app.use("/user", userRouter);
-app.use("/liked", likedRouter);
-app.use("/watchlater",watchRouter);
 app.use("/playlist", playlistRouter);
 
 app.get("/", (req, res) => {

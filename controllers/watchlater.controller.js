@@ -4,9 +4,10 @@ const getWatchlaters = async(req, res) => {
     try {
         const { user } = req;
         const userWatchLater = await WatchLater.find({user:user.userId}).populate({path: "video"})
+        const watchlater = userWatchLater.map((item) => item.video)
         res.json({
             success: true,
-            userWatchLater
+            watchlaters: watchlater
         })
     } catch(err) {
         res.json({

@@ -15,7 +15,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: "password is required"
-    }
+    },
+    playlists: [{
+        type: Schema.Types.ObjectId,
+        ref: "Playlist"
+    }]
 })
 
 const User = mongoose.model("User", userSchema);

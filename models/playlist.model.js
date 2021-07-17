@@ -6,14 +6,14 @@ const playlistSchema = new Schema({
         type: String,
         required: "Playlist name required"
     },
-    user: {
+    creator: {
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-    video: {
+    video: [{
         type: Schema.Types.ObjectId,
         ref: "Video"
-    }
+    }]
 })
 
 const Playlist = mongoose.model("Playlist", playlistSchema);
