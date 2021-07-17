@@ -1,14 +1,17 @@
 const express = require("express");
-const { addToLikedVideos, getLikedVideos, removeVideo } = require("../controllers/likedVideo.controller");
+const { getLikedVideos, toggleLiked } = require("../controllers/likedVideo.controller");
 const router = express.Router();
 const { getUserById, getVideoById } = require("../controllers/params");
+const verifyToken = require("../middleware/verifyToken");
 
-router.param("videoID", getVideoById);
-router.param("userId", getUserById);
+router.use(verifyToken)
+
+// router.param("videoID", getVideoById);
+// router.param("userId", getUserById);
 
 // likedvideos
 router.get("/:userId", getLikedVideos);
-router.post("/:userId/:videoId", addToLikedVideos);
-router.delete("/:userId/:videoId", removeVideo);
+router.post("/:videoId", toggleLiked);
+
 
 module.exports = router;

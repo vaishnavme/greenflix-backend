@@ -1,5 +1,4 @@
 const { User } = require("../models/user.model");
-const { extend } = require("lodash");
 
 const getLikedVideos = async(req, res) => {
     try {
@@ -21,51 +20,36 @@ const getLikedVideos = async(req, res) => {
     }
 }
 
-const addToLikedVideos = async(req, res) => {
+const toggleLiked = async(req, res) => {
     try {
         const { user } = req;
         const { videoId } = req.params;
+        const { type } = req.body;
 
-        const updatePlaylists = await User.findById(user._id);
-        const addNewVideo = extend (
-            updatePlaylists, {
-                likedvideos: [videoId, ...updatePlaylists.likedvideos]
-            }
-        )
-        const newResponse = await addNewVideo.save();
-        console.log(addNewVideo)
+        const userAccount = await User.findById(user.userId);
+
+        if(type === "REMOVE") {
+            await userAccount.likedvideos.pull(videoId);
+            userAccount.save();
+        } else {
+            if(userAccount) {
+                userAccount.likedvideos.push(videoId)
+                await userAccount.save();
+            } 
+        }
         res.json({
             success: true,
-            newResponse
+            videoId
         })
     } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: `Error Occured: ${err}`
-        })
-    }
-}
-
-const removeVideo = async(req, res) => {
-    try {
-        const { user } = req;
-        const { videoId } = req.params;
-        await user.likedvideos.pull(videoId);
-        user.save();
         res.json({
-            success: true,
-            likedvideos: user.likedvideos
-        })
-    } catch (err) {
-        res.status(500).json({
             success: false,
-            message: `Error Occured: ${err}`
+            message: `ERROR Occured: ${err}`
         })
     }
 }
 
 module.exports = {
     getLikedVideos,
-    addToLikedVideos,
-    removeVideo
+    toggleLiked
 }
