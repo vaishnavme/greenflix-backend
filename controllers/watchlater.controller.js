@@ -1,13 +1,12 @@
-const { User } = require("../models/user.model");
+const { WatchLater } = require("../models/watchlater.model");
 
 const getWatchlaters = async(req, res) => {
     try {
         const { user } = req;
-        const userAccount = await User.findById(user.userId).populate({path: "watchlater"})
-
+        const userWatchLater = await WatchLater.find({user:user.userId}).populate({path: "video"})
         res.json({
             success: true,
-            watchlater: userAccount.watchlater
+            userWatchLater
         })
     } catch(err) {
         res.json({
@@ -23,17 +22,20 @@ const toggleWatchLater = async(req, res) => {
         const { videoId } = req.params;
         const { type } = req.body;
 
-        const userAccount = await User.findById(user.userId);
-
-        if(type === "REMOVE") {
-            await userAccount.watchlater.pull(videoId);
-            userAccount.save();
+        const videoItem = await WatchLater.findOne({video: videoId, user: user.userId})
+        
+        if(videoItem) {
+            if(type === "REMOVE") {
+                const removeVideo = await WatchLater.findOneAndDelete({video: videoId, user: user.userId})
+            }
         } else {
-            if(userAccount) {
-                userAccount.watchlater.push(videoId)
-                await userAccount.save();
-            } 
-        }
+            const newWatchLater = new WatchLater({
+                user: user.userId,
+                video: videoId
+            })
+            await newWatchLater.save();
+        } 
+        
         res.json({
             success: true,
             videoId

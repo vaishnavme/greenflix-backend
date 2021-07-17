@@ -1,5 +1,4 @@
 const { LikedVideos } = require("../models/liked.model");
-const { User } = require("../models/user.model");
 
 const getLikedVideos = async(req, res) => {
     try {
