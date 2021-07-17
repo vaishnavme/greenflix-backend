@@ -1,17 +1,13 @@
 const { User } = require("../models/user.model");
-const { extend } = require("lodash");
 
 const getWatchlaters = async(req, res) => {
     try {
         const { user } = req;
-        const collection = user;
-        const populateCollection = await collection.populate({
-            path: "watchlater"
-        }).execPopulate();
+        const userAccount = await User.findById(user.userId).populate({path: "watchlater"})
 
         res.json({
             success: true,
-            watchlater: populateCollection.watchlater
+            watchlater: userAccount.watchlater
         })
     } catch(err) {
         res.json({
@@ -21,52 +17,36 @@ const getWatchlaters = async(req, res) => {
     }
 }
 
-const addToWatchlater = async(req, res) => {
+const toggleWatchLater = async(req, res) => {
     try {
         const { user } = req;
         const { videoId } = req.params;
-        console.log("user", user);
-        console.log("vid",videoId);
-        const updatePlaylists = await User.findById(user._id);
-        const addNewVideo = extend (
-            updatePlaylists, {
-                watchlater: [videoId, ...updatePlaylists.watchlater]
-            }
-        )
-        const newResponse = await addNewVideo.save();
-        console.log(addNewVideo)
-        res.json({
-            success: true,
-            newResponse
-        })
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: `Error Occured: ${err}`
-        })
-    }
-}
+        const { type } = req.body;
 
-const removeVideo = async(req, res) => {
-    try {
-        const { user } = req;
-        const { videoId } = req.params;
-        await user.watchlater.pull(videoId);
-        user.save();
+        const userAccount = await User.findById(user.userId);
+
+        if(type === "REMOVE") {
+            await userAccount.watchlater.pull(videoId);
+            userAccount.save();
+        } else {
+            if(userAccount) {
+                userAccount.watchlater.push(videoId)
+                await userAccount.save();
+            } 
+        }
         res.json({
             success: true,
-            watchlater: user.watchlater
+            videoId
         })
     } catch (err) {
-        res.status(500).json({
+        res.json({
             success: false,
-            message: `Error Occured: ${err}`
+            message: `ERROR Occured: ${err}`
         })
     }
 }
 
 module.exports = {
     getWatchlaters,
-    addToWatchlater,
-    removeVideo
+    toggleWatchLater
 }

@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { getUserById, getVideoById } = require("../controllers/params");
-const { getWatchlaters, addToWatchlater, removeVideo } = require("../controllers/watchlater.controller");
+const { getWatchlaters, toggleWatchLater } = require("../controllers/watchlater.controller");
+const verifyToken = require("../middleware/verifyToken");
 
-router.param("videoID", getVideoById);
-router.param("userId", getUserById);
-
-// likedvideos
-router.get("/:userId", getWatchlaters);
-router.post("/:userId/:videoId", addToWatchlater);
-router.delete("/:userId/:videoId", removeVideo);
+router.use(verifyToken);
+router.get("/", getWatchlaters);
+router.post("/:videoId", toggleWatchLater);
 
 module.exports = router;
