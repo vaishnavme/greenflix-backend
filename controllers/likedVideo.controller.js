@@ -3,14 +3,12 @@ const { User } = require("../models/user.model");
 const getLikedVideos = async(req, res) => {
     try {
         const { user } = req;
-        const collection = user;
-        const populateCollection = await collection.populate({
-            path: "likedvideos"
-        }).execPopulate();
+
+        const userAccount = await User.findById(user.userId).populate({path: "likedvideos"})
 
         res.json({
             success: true,
-            likedvideos: populateCollection.likedvideos
+            likedvideos: userAccount.likedvideos
         })
     } catch(err) {
         res.json({
