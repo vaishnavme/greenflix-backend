@@ -20,23 +20,6 @@ const getVideoById = async(req, res, next, ID) => {
     }
 }
 
-const getUserById = async(req, res, next,id) =>{
-    try{
-        const user = await User.findById(id)
-        if(!user){
-            throw Error("No such user found");
-        }
-        req.user = user;
-        next()
-    } catch(err) {
-        res.status(503).json({ 
-            success:false, 
-            error: "error occured"
-        })
-    }
-}
-
 module.exports = {
     getVideoById,
-    getUserById
 }
