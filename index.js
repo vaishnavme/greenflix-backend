@@ -13,6 +13,9 @@ const likedRouter = require("./routes/likedvideo.route");
 const watchRouter = require("./routes/watchlater.route");
 const playlistRouter = require("./routes/playlist.route");
 
+const errorHandler = require("./middleware/errorHandler");
+const routeHandler = require("./middleware/routeHandler");
+
 dbConnection();
 
 app.use("/videos", videoRouter);
@@ -25,6 +28,10 @@ app.use("/playlist", playlistRouter);
 app.get("/", (req, res) => {
     res.send("Leafshot video app api...")
 })
+
+//middleware
+app.use(routeHandler)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
