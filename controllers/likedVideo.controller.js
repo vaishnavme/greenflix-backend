@@ -7,7 +7,7 @@ const getLikedVideos = async(req, res) => {
         const likedvideos = userLikedVideos.map((item) => item.video)
         res.json({
             success: true,
-            likedvideos: likedvideos
+            playlistVideos: likedvideos
         })
     } catch(err) {
         res.json({

@@ -7,7 +7,7 @@ const getWatchlaters = async(req, res) => {
         const watchlater = userWatchLater.map((item) => item.video)
         res.json({
             success: true,
-            watchlaters: watchlater
+            playlistVideos: watchlater
         })
     } catch(err) {
         res.json({
