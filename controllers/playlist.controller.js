@@ -1,6 +1,32 @@
 const { Playlist } = require("../models/playlist.model");
 const { User } = require("../models/user.model");
 
+const populatePlaylist = {
+    path: "playlists",
+    select: "_id playlistName",
+    populate: {
+        path: "video"
+    }
+}
+
+const getAllUserPlaylist = async(req, res) => {
+    const { user } = req;
+    try {
+        const userAccount = await User.findById(user.userId).populate(populatePlaylist);
+
+        res.json({
+            success: true,
+            playlists: userAccount.playlists
+        })
+    } catch(err) {
+        console.log(err);
+        res.json({
+            success: false,
+            message: `Error Occured: ${err}`
+        })
+    }
+}
+
 const getPlaylistById = async(req, res) => {
     const { playlistId } = req.params;
     try {
@@ -20,13 +46,15 @@ const getPlaylistById = async(req, res) => {
 
 const createNewPlaylist = async(req, res) => {
     const { user } = req;
+    const { videoId } = req.params;
     const { playlistName } = req.body;
     try {
         const userAccount = await User.findById(user.userId);
 
         const newPlaylist = new Playlist({
             playlistName: playlistName,
-            creator: user.userId
+            creator: user.userId,
+            video: videoId
         })
         const playlist = await newPlaylist.save();
         userAccount.playlists.push(playlist._id);
@@ -60,7 +88,8 @@ const addVideoToPlaylist = async(req, res) => {
         res.json({
             success: true,
             message: "Video Added",
-            playlist
+            playlistId,
+            videoId
         })
     } catch(err) {
         console.log(err);
@@ -82,6 +111,7 @@ const removeVideoFromPlaylist = async(req, res) => {
         res.json({
             success: true,
             message: "Video removed",
+            playlistId,
             videoId
         })
     } catch(err) {
@@ -119,6 +149,7 @@ const deletePlaylist = async(req, res) => {
 }
 
 module.exports = {
+    getAllUserPlaylist,
     getPlaylistById,
     createNewPlaylist,
     addVideoToPlaylist,
