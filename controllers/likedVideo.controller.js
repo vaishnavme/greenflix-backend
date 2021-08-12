@@ -5,9 +5,11 @@ const getLikedVideos = async(req, res) => {
         const { user } = req;
         const userLikedVideos = await LikedVideos.find({user:user.userId}).populate({path: "video"})
         const likedvideos = userLikedVideos.map((item) => item.video)
+        let userPlaylistVideos = {playlistName: "Liked Videos", video: [...likedvideos]}
+        
         res.json({
             success: true,
-            playlistVideos: likedvideos
+            playlistVideos: userPlaylistVideos
         })
     } catch(err) {
         res.json({

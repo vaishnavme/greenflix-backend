@@ -31,9 +31,10 @@ const getPlaylistById = async(req, res) => {
     const { playlistId } = req.params;
     try {
         const playlist = await Playlist.findById(playlistId).populate({path: "video"});
+
         res.json({
             success: true,
-            playlistVideos: playlist.video
+            playlistVideos: playlist
         })
     } catch(err) {
         console.log(err);
