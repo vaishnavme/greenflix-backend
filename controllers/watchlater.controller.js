@@ -50,7 +50,24 @@ const toggleWatchLater = async(req, res) => {
     }
 }
 
+const deleteAllWatchLater = async(req, res) => {
+    try {
+        const { user } = req;
+        await WatchLater.deleteMany({user:user.userId})
+        
+        res.json({
+            success: true,
+        })
+    } catch(err) {
+        res.json({
+            success: false,
+            message: `Error Occured Error: ${err}`
+        })
+    }
+}
+
 module.exports = {
     getWatchlaters,
-    toggleWatchLater
+    toggleWatchLater,
+    deleteAllWatchLater
 }

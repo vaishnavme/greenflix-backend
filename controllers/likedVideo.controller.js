@@ -51,7 +51,24 @@ const toggleLiked = async(req, res) => {
     }
 }
 
+const deleteAllLikedVideos = async(req, res) => {
+    try {
+        const { user } = req;
+        await LikedVideos.deleteMany({user:user.userId})
+        
+        res.json({
+            success: true,
+        })
+    } catch(err) {
+        res.json({
+            success: false,
+            message: `Error Occured Error: ${err}`
+        })
+    }
+}
+
 module.exports = {
     getLikedVideos,
-    toggleLiked
+    toggleLiked,
+    deleteAllLikedVideos
 }
