@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const watchlaterSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     },
     video: {
         type: Schema.Types.ObjectId,
-        ref: "Video"
+        ref: 'Video'
     }
-})
+});
 
-const WatchLater = mongoose.model("WatchLater", watchlaterSchema);
-module.exports = { WatchLater }
+const WatchLater = mongoose.model('WatchLater', watchlaterSchema);
+module.exports = { WatchLater };

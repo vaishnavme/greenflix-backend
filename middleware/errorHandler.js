@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
     res.status(500).json({
         success: false,
         message: `Error occured ${err}`
-    })
-}
+    });
+};
 
 module.exports = errorHandler;

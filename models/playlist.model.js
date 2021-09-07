@@ -1,20 +1,22 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const playlistSchema = new Schema({
     playlistName: {
         type: String,
-        required: "Playlist name required"
+        required: 'Playlist name required'
     },
     creator: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     },
-    video: [{
-        type: Schema.Types.ObjectId,
-        ref: "Video"
-    }]
-})
+    video: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Video'
+        }
+    ]
+});
 
-const Playlist = mongoose.model("Playlist", playlistSchema);
-module.exports = { Playlist }
+const Playlist = mongoose.model('Playlist', playlistSchema);
+module.exports = { Playlist };
